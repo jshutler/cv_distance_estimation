@@ -76,7 +76,9 @@ pbar = tqdm(total=len(all_files), position=1)
 count = 0
 for idx, f in enumerate(all_files):
     pbar.update(1)
-    file_object = open(INPUTDIR + f, 'r')
+
+    print(f)
+    file_object = open(INPUTDIR + f, 'r',  encoding="utf8")
     file_content = [x.strip() for x in file_object.readlines()]
 
     for line in file_content:
