@@ -1,6 +1,0 @@
-,input_features,rmse_total,rmse_human
-0,"['pixel_height', 'pixel_width']",56.8432382122166,50.65761689212848
-bounding_box,"['xmin', 'ymin', 'xmax', 'ymax']",14.708890582491325,7.309751229021623
-pixel_model,"['xmin', 'xmax', 'ymin', 'ymax']",14.87148365827393,9.53179764785379
-human_bb_model,"['xmin', 'xmax', 'ymin', 'ymax']",36.60330869579151,36.60330869579151
-bb_w_class,"['xmin', 'ymin', 'xmax', 'ymax', 'class']",8.59002141487537,8.4778337051161
