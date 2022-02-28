@@ -7,7 +7,7 @@ import cv2
 from sklearn.model_selection import train_test_split
 from math import sin, cos
 
-dirname = "data/training/image_2/"
+dirname = "../data/training/subimages/"
 
 
 def float_range(start, stop, step):
@@ -66,8 +66,13 @@ def pad_image(img, max_shape=(376, 1242)):
 	max_width = max_shape[1]
 	padded_img = cv2.copyMakeBorder(img, max_height - img.shape[0], 0, max_width - img.shape[1], 0, cv2.BORDER_CONSTANT, value=0)
 
-	# padded_img = cv2.copyMakeBorder(img, max_width, max_width, max_height, max_height, cv2.BORDER_CONSTANT, value=0)
-	return padded_img
+	scale_percent = .25
+	new_shape = (int(padded_img.shape[1] * scale_percent), int(padded_img.shape[0] * scale_percent))
+	
+	resized_img = cv2.resize(img, new_shape, interpolation=cv2.INTER_AREA)
+
+
+	return resized_img
 
 def save_bb_image(row, out_file):
 	#get file
@@ -90,7 +95,6 @@ def save_bb_image(row, out_file):
 	new_shape = (int(padded_img.shape[1] * scale_percent), int(padded_img.shape[0] * scale_percent))
 	
 	
-	
 	resized_img = cv2.resize(img, new_shape, interpolation=cv2.INTER_AREA)
 
 
@@ -108,6 +112,7 @@ def get_padded_subimage(row, max_shape=(376, 1242)):
 	x2 = int(row['xmax'])
 	y2 = int(row['ymax'])
 
+	print(img)
 	mask = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
 	subimage = img[y1: y2, x1:x2]
@@ -117,19 +122,15 @@ def get_padded_subimage(row, max_shape=(376, 1242)):
 	padded_img = cv2.copyMakeBorder(subimage, max_height - y2, y1, x1, max_width - x2, cv2.BORDER_CONSTANT, value=0)
 
 
-	print(f"subimage shape: {subimage.shape}")
-	print(f"padded shape: {padded_img.shape}")
-
-
-	cv2.imshow("image", img)
-	cv2.waitKey(0)
-	cv2.imshow("subimage", padded_img)
-	cv2.waitKey(0)
+	# cv2.imshow("image", img)
+	# cv2.waitKey(0)
+	# cv2.imshow("subimage", padded_img)
+	# cv2.waitKey(0)
+	return padded_img
 	
 
 
-df = pd.read_csv("labels.csv")
-
+df = pd.read_csv("../data/train.csv")
 df["dist_feet"] = df["zloc"].apply(lambda x: x * 3.28084)
 
 df["pixel_width"] = df.xmax - df.xmin
@@ -143,15 +144,32 @@ df["angle_discrete"] = df["angle"].apply(lambda angle: make_discrete_angle(angle
 df["cos_angle"] = df["angle"].apply(lambda x: cos(x))
 df["sin_angle"] = df["angle"].apply(lambda x: sin(x))
 
+length_max = 0
+width_max = 0
+padding_shape = (374, 510)
 
+dirname = "/home/jack/Desktop/code/projects/deloitte/cv_distance_estimation/data/training/subimages_padded_no_position/"
+
+shapes = []
 for idx, row in df.iterrows():
-	# fp = os.path.join(f"{dirname}", row['filename'].replace('.txt', '.png'))
-	# im = cv2.imread(fp)
-	# get_padded_subimage(row)
 	print(idx)
-	outfile = f"data/training/image_2_bounding/{idx}.png"
-	save_bb_image(row, outfile)
+	fp = f"{dirname}{row['filename_bb'].replace('.txt', '.png')}"
+	print(fp)
+	im = cv2.imread(fp)
+	if im is not None:
+		shapes.append(im.shape)
+	# padded_img = pad_image(im, padding_shape)
 
+
+print(set(shapes))
+
+	
+
+	# cv2.imwrite(f"../data/training/subimages_padded_no_position/{idx}.png", padded_img)
+	# print(idx)
+	# outfile = f"data/training/image_2_bounding/{idx}.png"
+	# save_bb_image(row, outfile)
+print((length_max, width_max))
 
 # df_train, df_test =  train_test_split(df)
 
