@@ -4,3 +4,4 @@ cuda_11.6.0_510.39.01_linux.run
 test/
 logs/
 *.zip
+models/
