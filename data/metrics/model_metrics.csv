@@ -1,4 +1,6 @@
 ,input_features,epochs,dist_feet_rmse_total,dist_feet_rmse_human,"['cos_angle', 'sin_angle']_aggregate_cos_distance_total","['cos_angle', 'sin_angle']_aggregate_cos_distance_human"
-image+class_find~dist+cos+sin,,30.0,7.460093991469871,4.5552535220705686,1.1770322332261818,1.0280461664182952
-subimage_w_position+class~dist_feet+(cos_angle + sin_angle),,30.0,7.085104431326954,4.3009584381328665,1.0870308270947908,1.0123425165379
-subimage+class+position~dist_feet,,,11.824475004676549,5.20230199987499,0.8674714715300461,1.0659260285551513
+bb_w_class,"['xmin', 'ymin', 'xmax', 'ymax', 'class']",1000,8.59002141487537,8.4778337051161,,
+image+class_find~dist+cos+sin,,30,7.46009399146987,4.55525352207057,1.17703223322618,1.0280461664183
+subimage_w_position+class~dist_feet+(cos_angle + sin_angle),,30,7.08510443132695,4.30095843813287,1.08703082709479,1.0123425165379
+subimage_w_position+class~dist_feet+(cos_angle + sin_angle),,300,6.84832115789531,4.09874231187832,0.62511265874815,0.60711548921254
+subimage+class+position~dist_feet,,50,11.8244750046766,5.20230199987499,0.867471471530046,1.06592602855515
